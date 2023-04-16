@@ -9,6 +9,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.UniqueConstraint;
 
 @Entity(name = "Course")
@@ -17,14 +18,16 @@ public class Course {
 	@Id
 	private String course_id;
 	private String course_name;
+	@Column(nullable = true)
 	private int credits;
 	private String desrciption;
-	
+
 	@ElementCollection
-	@CollectionTable(name = "Prerequisite_Subject",
-	joinColumns = @JoinColumn(name="course_id"),
-	uniqueConstraints = @UniqueConstraint(columnNames = {"course_id", "prerequisite"})
-	)
+	
+	@CollectionTable(name = "Prerequisite_Course", joinColumns = { @JoinColumn(name = "course_id") },
+	uniqueConstraints = {
+			@UniqueConstraint(columnNames = { "course_id","prerequisite" }) })
+
 	@Column(name = "prerequisite", nullable = false)
 	private Set<String> prerequisites = new HashSet<String>();
 
@@ -59,6 +62,26 @@ public class Course {
 	public void setDesrciption(String desrciption) {
 		this.desrciption = desrciption;
 	}
-	
-	
+
+	public Set<String> getPrerequisites() {
+		return prerequisites;
+	}
+
+	public void setPrerequisites(Set<String> prerequisites) {
+		this.prerequisites = prerequisites;
+	}
+
+	public Course(String course_id, String course_name, int credits, String desrciption, Set<String> prerequisites) {
+		super();
+		this.course_id = course_id;
+		this.course_name = course_name;
+		this.credits = credits;
+		this.desrciption = desrciption;
+		this.prerequisites = prerequisites;
+	}
+
+	public Course() {
+		// TODO Auto-generated constructor stub
+	}
+
 }

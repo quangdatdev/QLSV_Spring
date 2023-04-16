@@ -1,4 +1,5 @@
 package com.se.spring.dao;
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,52 +11,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.se.spring.entity.Person;
-import com.se.spring.entity.Student;
+import com.se.spring.entity.Faculty;
 
 @Repository
-public class StudentsDAOImpl implements StudentDAO {
+public class FacultyDAOImpl implements FacultyDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
 	@Transactional
-	public List<Student> getStudentAll() {
+	public List<Faculty> getFacultyAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Student> query = currentSession.createNativeQuery("select *  FROM   dbo.Person INNER JOIN\r\n"
-				+ "             dbo.Student ON dbo.Person.uid = dbo.Student.uid",Student.class);
-		List<Student> lstStudent = query.getResultList();
-		System.out.println(lstStudent.get(0));
-		return lstStudent;
+		Query<Faculty> query = currentSession.createNativeQuery("select *  FROM   dbo.Person INNER JOIN\r\n"
+				+ "             dbo.Faculty ON dbo.Person.uid = dbo.Faculty.uid",Faculty.class);
+		List<Faculty> lstFaculty = query.getResultList();
+		System.out.println(lstFaculty.get(0));
+		return lstFaculty;
 	}
 
 	@Override
 	@Transactional
-	public Student getStudentById(String id) {
+	public Faculty getFacultyById(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Student> query = currentSession.createNativeQuery("\r\n"
+		Query<Faculty> query = currentSession.createNativeQuery("\r\n"
 				+ "select *\r\n"
 				+ "FROM   dbo.Person INNER JOIN\r\n"
-				+ "             dbo.Student ON dbo.Person.uid = dbo.Student.uid "
-				+ "where uid = '"+ id +"'",Student.class);
-		Student lstStudent = query.uniqueResult();
-		return lstStudent;
+				+ "             dbo.Faculty ON dbo.Person.uid = dbo.Faculty.uid "
+				+ "where uid = '"+ id +"'",Faculty.class);
+		Faculty lstFaculty = query.uniqueResult();
+		return lstFaculty;
 	}
 
 	@Override
 	@Transactional
-	public String deleteStudent(String id) {
+	public String deleteFaculty(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		Student st = new Student();
-		st.setId(id);
+		Faculty st = new Faculty();
+		st.setIdFaculty(id);
 		currentSession.delete(st);
 		Person p = new Person();
 		p.setId(id);
-//		currentSession.delete(id, Student.class);
+//		currentSession.delete(id, Faculty.class);
 //		currentSession.delete(id, Person.class);
 //		Query q = currentSession.createQuery("delete Entity where uid ='"+id+"'");
-//		Query q1 = currentSession.createQuery("delete Student where uid ='"+id+"'");
+//		Query q1 = currentSession.createQuery("delete Faculty where uid ='"+id+"'");
 //		Query q2 = currentSession.createQuery("delete Person where uid ='"+id+"'");
 //		q1.executeUpdate();
 		return id;
@@ -63,14 +64,14 @@ public class StudentsDAOImpl implements StudentDAO {
 
 	@Override
 	@Transactional
-	public Student updateStudent(String id, Student st) {
+	public Faculty updateFaculty(String id, Faculty st) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.update(id, st);
 		return st;	}
 
 	@Override
 	@Transactional
-	public Student addStudent(Student st) {
+	public Faculty addFaculty(Faculty st) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(st);
 		return st;
@@ -79,10 +80,10 @@ public class StudentsDAOImpl implements StudentDAO {
 	
 	@Override
 	@Transactional
-	public List<Student> addListStudent(List<Student> listST) {
+	public List<Faculty> addListFaculty(List<Faculty> listST) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		for (Student student : listST) {
-			currentSession.save(student);
+		for (Faculty Faculty : listST) {
+			currentSession.save(Faculty);
 		}
 		return listST;
 	}
@@ -90,14 +91,14 @@ public class StudentsDAOImpl implements StudentDAO {
 
 	@Override
 	@Transactional
-	public List<Student> getStudentByClass(String class_id) {
+	public List<Faculty> getFacultyByName(String class_id) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Student> query = currentSession.createNativeQuery("select * \r\n"
+		Query<Faculty> query = currentSession.createNativeQuery("select * \r\n"
 				+ "FROM   dbo.Person INNER JOIN\r\n"
-				+ "             dbo.Student ON dbo.Person.uid = dbo.Student.uid\r\n"
-				+ "where id_class = '"+ class_id +"'",Student.class);
-		List<Student> lstStudent = query.getResultList();
-		return lstStudent;
+				+ "             dbo.Faculty ON dbo.Person.uid = dbo.Faculty.uid\r\n"
+				+ "where id_class = '"+ class_id +"'",Faculty.class);
+		List<Faculty> lstFaculty = query.getResultList();
+		return lstFaculty;
 	}
 	
 	
