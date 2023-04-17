@@ -12,7 +12,7 @@ import com.se.spring.entity.Faculty;
 import com.se.spring.service.FacultyService;
 
 @RestController
-@RequestMapping("/api/v1/Faculty")
+@RequestMapping("/api/v1/faculty")
 public class FacultyController {
 
 	@Autowired

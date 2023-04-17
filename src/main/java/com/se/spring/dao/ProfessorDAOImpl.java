@@ -23,7 +23,9 @@ public class ProfessorDAOImpl implements ProfessorDAO{
 	@Transactional
 	public List<Professor> getProfessorAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Professor> query = currentSession.createNativeQuery("select *  from PROFESSOR_VIEW",Professor.class);
+		Query<Professor> query = currentSession.createNativeQuery("SELECT Person.*, Professor.degree, Professor.title, Professor.id_faculty\r\n"
+				+ "FROM   Person INNER JOIN\r\n"
+				+ "             Professor ON Person.uid = Professor.uid",Professor.class);
 		List<Professor> lstProfessor = query.getResultList();
 		System.out.println(lstProfessor.get(0));
 		return lstProfessor;

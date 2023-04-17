@@ -1,5 +1,6 @@
 package com.se.spring.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,6 +11,7 @@ public class Department {
 	@Id
 	private String id_dep;
 	private String name_dep;
+	@Column(nullable = true)
 	private int noOfSeat;
 	
 	

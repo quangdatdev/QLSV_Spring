@@ -2,10 +2,11 @@ package com.se.spring.entity;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+@Entity(name = "Schedule")
 public class Schedule {
 	
 	@Id
@@ -13,8 +14,7 @@ public class Schedule {
 	private String semester;
 	private String years;
 	
-	@ManyToOne
-	@JoinColumn(name = "list_section")
+	@OneToMany(mappedBy = "schedule")
 	private List<Section> list_section;
 	public Schedule() {
 		// TODO Auto-generated constructor stub
@@ -43,5 +43,6 @@ public class Schedule {
 	public void setList_section(List<Section> list_section) {
 		this.list_section = list_section;
 	}
+	
 	
 }

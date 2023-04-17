@@ -34,6 +34,9 @@ public class Section {
 	@JoinColumn(name = "uid_professor")
 	private Professor professor;
 
+	@ManyToOne
+	private Schedule schedule;
+	
 	public String getId_section() {
 		return section_id;
 	}
