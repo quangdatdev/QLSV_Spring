@@ -24,11 +24,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.se.spring")
 @PropertySource({ "classpath:persistence-mssql.properties" })
+@EnableSwagger2
 public class AppConfig implements WebMvcConfigurer {
 	@Autowired
 	private Environment env;

@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,23 +26,23 @@ public class CourseController {
 		
 		return service.getCourseAll();
 	}
-	@GetMapping("/getById")
-	public Course getById(String id) {
+	@GetMapping("/getById/{id}")
+	public Course getById(@PathVariable String id) {
 		
 		
 		return service.getCourseById(id);
 	}
 	
-	@PostMapping("/delete")
-	public String deleteCourse(String id) {
+	@PostMapping("/delete/{id}")
+	public String deleteCourse(@PathVariable String id) {
 		
 		return service.deleteCourse(id);
 	}
 	
-	@GetMapping("/update")
-	public Course updateCourse(String id,Course st) {
+	@PutMapping("/update")
+	public Course updateCourse(@PathVariable Course st) {
 		
-		return service.updateCourse(id,st);
+		return service.updateCourse(st);
 	}
 	@PostMapping("/add")
 	public Course addCourse(Course st) {

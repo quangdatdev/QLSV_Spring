@@ -24,7 +24,7 @@ public class SectionDAOImpl implements SectionDAO{
 	public List<Section> getSectionAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Section> query = currentSession.createNativeQuery("select * from Section",Section.class);
-		List<Section> lstSection = query.getResultList();
+		List<Section> lstSection = query.getResultList();	
 		System.out.println(lstSection.get(0));
 		return lstSection;
 	}
@@ -96,6 +96,19 @@ public class SectionDAOImpl implements SectionDAO{
 				+ "where course_name = '"+ name +"'",Section.class);
 		List<Section> lstSection = query.getResultList();
 		return lstSection;
+	}
+
+	@Override
+	public List<Section> getSectionBySemeters(String semeters, String year) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Section> query = currentSession.createNativeQuery("SELECT  Section.*\r\n"
+				+ "FROM   Course INNER JOIN\r\n"
+				+ "             Section ON Course.course_id = Section.course_id INNER JOIN\r\n"
+				+ "             Schedule ON Section.schedule_id = Schedule.id "
+				+ "where years = '"+ year +"' and semester = '"+semeters+"'",Section.class);
+		List<Section> lstSection = query.getResultList();
+		return lstSection;
+
 	}
 	
 	

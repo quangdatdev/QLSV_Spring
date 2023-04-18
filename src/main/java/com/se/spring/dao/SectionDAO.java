@@ -13,4 +13,5 @@ public interface SectionDAO {
 	public List<Section> getSectionByCourse(String class_id);
 	public List<Section> addListSection(List<Section> st);
 	List<Section> getSectionByCourseName(String class_id);
+	public List<Section> getSectionBySemeters(String semeters, String year);
 }

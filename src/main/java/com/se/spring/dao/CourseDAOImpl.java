@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -22,16 +23,10 @@ public class CourseDAOImpl implements CourseDAO {
 	@Transactional
 	public List<Course> getCourseAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Course> query = currentSession.createNativeQuery(
-				"SELECT Course.*, Prerequisite_Course.prerequisite\r\n" + "FROM   Course INNER JOIN\r\n"
-						+ "Prerequisite_Course ON Course.course_id = Prerequisite_Course.course_id",
-				Course.class);
+		Query<Course> query = currentSession.createNativeQuery("SELECT Course.*, Prerequisite_Course.*\r\n"
+				+ "FROM   Course JOIN\r\n"
+				+ "             Prerequisite_Course ON Course.course_id = Prerequisite_Course.course_id",Course.class);
 		List<Course> lstCourse = query.getResultList();
-//		System.out.println(lstCourse.get(0).getCourse_name().toString());
-//		System.out.println(lstCourse.get(0).getCourse_id().toString());
-//		System.out.println(lstCourse.get(0).getCredits());
-//		System.out.println(lstCourse.get(0).getDesrciption().toString());
-//		System.out.println(lstCourse.get(0).getPrerequisites().toString());
 		return lstCourse;
 	}
 
@@ -43,7 +38,7 @@ public class CourseDAOImpl implements CourseDAO {
 				"SELECT Course.*, prerequisite\r\n"
 				+ "FROM   Course INNER JOIN\r\n"
 				+ " Prerequisite_Course ON Course.course_id = Prerequisite_Course.course_id"
-						+ "where course_id = '" + id + "'",
+						+ " where Course.course_id = '" + id + "'",
 				Course.class);
 		Course lstCourse = query.uniqueResult();
 		return lstCourse;
@@ -57,16 +52,14 @@ public class CourseDAOImpl implements CourseDAO {
 		Course st = new Course();
 		st.setCourse_id(id);
 		currentSession.delete(st);
-		Person p = new Person();
-		p.setId(id);
 		return id;
 	}
 
 	@Override
 	@Transactional
-	public Course updateCourse(String id, Course st) {
+	public Course updateCourse(Course st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
+		currentSession.update(st.getCourse_id(), st);
 		return st;
 	}
 

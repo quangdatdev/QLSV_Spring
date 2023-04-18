@@ -62,5 +62,11 @@ public class SectionController {
 		
 		return service.getSectionByCourseName(class_id);
 	}
+	
+	@GetMapping("/getBySememeters")
+	public List<Section> getSectionBySemeters(String semeters, String year){
+	
+		return service.getSectionBySemeters(semeters,year);
+	}
 
 }

@@ -40,8 +40,8 @@ public class CourseServiceImpl implements CourseService{
 
 	@Override
 	@Transactional
-	public Course updateCourse(String id, Course st) {
-		return dao.updateCourse(id,st);
+	public Course updateCourse( Course st) {
+		return dao.updateCourse(st);
 	}
 
 

@@ -74,4 +74,11 @@ public class SectionServiceImpl implements SectionService{
 		return dao.getSectionByCourseName(course_name);
 	}
 
+
+	@Override
+	public List<Section> getSectionBySemeters(String semeters, String year) {
+		// TODO Auto-generated method stub
+		return dao.getSectionBySemeters(semeters,year);
+	}
+
 }

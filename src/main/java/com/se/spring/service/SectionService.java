@@ -13,4 +13,5 @@ public interface SectionService {
 	public List<Section> getSectionByCourse(String class_id);
 	public List<Section> addListSection(List<Section> st);
 	List<Section> getSectionByCourseName(String course_name);
+	public List<Section> getSectionBySemeters(String semeters, String year);
 }
