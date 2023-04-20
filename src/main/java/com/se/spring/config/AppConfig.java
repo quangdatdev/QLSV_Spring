@@ -24,14 +24,18 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableWebMvc
+@EnableSwagger2
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.se.spring")
 @PropertySource({ "classpath:persistence-mssql.properties" })
-@EnableSwagger2
 public class AppConfig implements WebMvcConfigurer {
 	@Autowired
 	private Environment env;
@@ -123,6 +127,20 @@ public class AppConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("swagger-ui.html")
+	      .addResourceLocations("classpath:/META-INF/resources/");
+
+	    registry.addResourceHandler("/webjars/**")
+	      .addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
+	
+	@Bean
+	  public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)  
+		          .select()                                  
+		          .apis(RequestHandlerSelectors.any())              
+		          .paths(PathSelectors.any())                          
+		          .build(); 
+	  }
 
 }

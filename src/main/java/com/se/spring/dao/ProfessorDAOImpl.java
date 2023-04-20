@@ -56,9 +56,9 @@ public class ProfessorDAOImpl implements ProfessorDAO{
 
 	@Override
 	@Transactional
-	public Professor updateProfessor(String id, Professor st) {
+	public Professor updateProfessor( Professor st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
+		currentSession.update(st.getId(), st);
 		return st;	}
 
 	@Override

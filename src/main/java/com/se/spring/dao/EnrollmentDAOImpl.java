@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.se.spring.entity.Enrollment;
 
 @Repository
-public class EnrollmentDAOImpl implements EnrollmentDAO{
+public class EnrollmentDAOImpl implements EnrollmentDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -22,7 +22,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Transactional
 	public List<Enrollment> getEnrollmentAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Enrollment> query = currentSession.createNativeQuery("select *  FROM   Enrollment",Enrollment.class);
+		Query<Enrollment> query = currentSession.createNativeQuery("select *  FROM   Enrollment", Enrollment.class);
 		List<Enrollment> lstEnrollment = query.getResultList();
 		System.out.println("HEllo");
 		return lstEnrollment;
@@ -32,8 +32,8 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Transactional
 	public Enrollment getEnrollmentByStudentId(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Enrollment> query = currentSession.createNativeQuery("select *  FROM   Enrollment"
-				+ " where uid = '"+ id +"'",Enrollment.class);
+		Query<Enrollment> query = currentSession
+				.createNativeQuery("select *  FROM   Enrollment" + " where uid = '" + id + "'", Enrollment.class);
 		Enrollment lstEnrollment = query.uniqueResult();
 		return lstEnrollment;
 	}
@@ -43,16 +43,26 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	public String deleteEnrollment(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.delete(id,Enrollment.class);
+		currentSession.delete(id, Enrollment.class);
 		return id;
 	}
 
 	@Override
 	@Transactional
-	public Enrollment updateEnrollment(String id, Enrollment st) {
+	public Enrollment updateGradeEnrollment(Enrollment st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
-		return st;	}
+		Query<Enrollment> query = currentSession.createNativeQuery(
+				"UPDATE [dbo].[Enrollment] " + "   SET [gradle] = " + st.getGradle() + " where uid = '"
+						+ st.getStudent().getId() + "' and id_section= '" + st.getSection().getId_section() + "'",
+				Enrollment.class);
+		int rs = 0;
+		rs = query.executeUpdate();
+		if (rs == 0) {
+			return null;
+		}
+		return st;
+
+	}
 
 	@Override
 	@Transactional
@@ -61,8 +71,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		currentSession.save(st);
 		return st;
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public List<Enrollment> addListEnrollment(List<Enrollment> listST) {
@@ -72,18 +81,15 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		}
 		return listST;
 	}
-	
 
 	@Override
 	@Transactional
 	public List<Enrollment> getEnrollmentBySectionId(String name) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Enrollment> query = currentSession.createNativeQuery("select *  FROM   Enrollment "
-				+ "where id_section = '"+ name +"'",Enrollment.class);
+		Query<Enrollment> query = currentSession.createNativeQuery(
+				"select *  FROM   Enrollment " + "where id_section = '" + name + "'", Enrollment.class);
 		List<Enrollment> lstEnrollment = query.getResultList();
 		return lstEnrollment;
 	}
-	
-	
 
 }

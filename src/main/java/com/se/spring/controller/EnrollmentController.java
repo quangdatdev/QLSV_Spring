@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +25,8 @@ public class EnrollmentController {
 		
 		return service.getEnrollmentAll();
 	}
-	@GetMapping("/getByStudentId")
-	public Enrollment getByStudentId(String id) {
+	@GetMapping("/getByStudentId/{id}")
+	public Enrollment getByStudentId(@PathVariable String id) {
 		
 		
 		return service.getEnrollmentByStudentId(id);
@@ -36,10 +38,10 @@ public class EnrollmentController {
 		return service.deleteEnrollment(id);
 	}
 	
-	@GetMapping("/update")
-	public Enrollment updateEnrollment(String id,Enrollment st) {
+	@PutMapping("/updateGrade")
+	public Enrollment updateGradeEnrollment(Enrollment st) {
 		
-		return service.updateEnrollment(id,st);
+		return service.updateGradeEnrollment(st);
 	}
 	@PostMapping("/add")
 	public Enrollment addEnrollment(Enrollment st) {
@@ -53,8 +55,8 @@ public class EnrollmentController {
 		return service.addListEnrollment(st);
 	}
 	
-	@GetMapping("/getBySectionId")
-	public List<Enrollment> getEnrollmentBySectionId(String class_id) {
+	@GetMapping("/getBySectionId/{id}")
+	public List<Enrollment> getEnrollmentBySectionId(@PathVariable String class_id) {
 		
 		return service.getEnrollmentBySectionId(class_id);
 	}

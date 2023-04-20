@@ -3,7 +3,9 @@ package com.se.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,22 +25,22 @@ public class ProfessorController {
 		
 		return service.getProfessorAll();
 	}
-	@GetMapping("/getById")
-	public Professor getById(String id) {
+	@GetMapping("/getById/{id}")
+	public Professor getById(@PathVariable String id) {
 		
 		return service.getProfessorById(id);
 	}
 	
-	@PostMapping("/delete")
-	public String deleteProfessor(String id) {
+	@DeleteMapping("/delete/{id}")
+	public String deleteProfessor(@PathVariable String id) {
 		
 		return service.deleteProfessor(id);
 	}
 	
 	@GetMapping("/update")
-	public Professor updateProfessor(String id,Professor st) {
+	public Professor updateProfessor(Professor st) {
 		
-		return service.updateProfessor(id,st);
+		return service.updateProfessor(st);
 	}
 	@PostMapping("/add")
 	public Professor addProfessor(Professor st) {

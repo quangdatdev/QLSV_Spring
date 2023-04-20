@@ -40,8 +40,8 @@ public class ProfessorServiceImpl implements ProfessorService{
 
 	@Override
 	@Transactional
-	public Professor updateProfessor(String id, Professor st) {
-		return dao.updateProfessor(id,st);
+	public Professor updateProfessor(Professor st) {
+		return dao.updateProfessor(st);
 	}
 
 

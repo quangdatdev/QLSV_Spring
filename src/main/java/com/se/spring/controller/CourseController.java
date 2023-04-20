@@ -56,8 +56,8 @@ public class CourseController {
 		return service.addListCourse(st);
 	}
 	
-	@GetMapping("/getByPrerequisite")
-	public List<Course> getCourseByClass(String class_id) {
+	@GetMapping("/getByPrerequisite/{class_id}")
+	public List<Course> getCourseByClass(@PathVariable String class_id) {
 		
 		return service.getCourseByPrerequisite(class_id);
 	}

@@ -40,8 +40,8 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
 	@Override
 	@Transactional
-	public Enrollment updateEnrollment(String id, Enrollment st) {
-		return dao.updateEnrollment(id,st);
+	public Enrollment updateGradeEnrollment(Enrollment st) {
+		return dao.updateGradeEnrollment(st);
 	}
 
 
