@@ -3,10 +3,12 @@ package com.se.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,30 +30,28 @@ public class CourseController {
 	}
 	@GetMapping("/getById/{id}")
 	public Course getById(@PathVariable String id) {
-		
-		
 		return service.getCourseById(id);
 	}
 	
-	@PostMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteCourse(@PathVariable String id) {
 		
 		return service.deleteCourse(id);
 	}
 	
-	@PutMapping("/update")
-	public Course updateCourse(@PathVariable Course st) {
+	@PutMapping("/update/{id}")
+	public Course updateCourse(@PathVariable String id, @RequestBody Course st) {
 		
-		return service.updateCourse(st);
+		return service.updateCourse(id,st);
 	}
 	@PostMapping("/add")
-	public Course addCourse(Course st) {
+	public Course addCourse(@RequestBody Course st) {
 		
 		return service.addCourse(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<Course> addListCourse(List<Course> st) {
+	public List<Course> addListCourse(@RequestBody List<Course> st) {
 		
 		return service.addListCourse(st);
 	}

@@ -1,11 +1,13 @@
 package com.se.spring.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -16,23 +18,27 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity(name = "NominalClass")
-public class NominalClass {
+public class NominalClass implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8239756915494680103L;
 	/**
 	 * Mã lớp danh nghĩa
 	 */
 	@Id
-	@Column(name = "id_class")
+	@Column(name = "id_class",columnDefinition = "nvarchar(255)", nullable = true)
 	private String idClass;
 	/**
 	 * Tên lớp danh nghĩa
 	 */
-	@Column(name = "name_class")
+	@Column(name = "name_class",columnDefinition = "nvarchar(255)", nullable = true)
 	private String nameClass;
 	
 	//Constrain
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "nominalClass")
-	private List<Student> student = new ArrayList<>();
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "nominalClass",fetch = FetchType.EAGER)
+//	private List<Student> student = new ArrayList<>();
 	
 
 	public String getIdClass() {
@@ -61,4 +67,9 @@ public class NominalClass {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "NominalClass [idClass=" + idClass + ", nameClass=" + nameClass +  "]";
+	}
+	
 }

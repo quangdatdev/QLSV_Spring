@@ -68,4 +68,11 @@ public class StudentsServiceImpl implements StudentService {
 		return dao.addListStudent(st);
 	}
 
+
+	@Override
+	public List<Student> getStudentByFaculty(String class_id) {
+		// TODO Auto-generated method stub
+		return dao.getStudentByFaculty(class_id);
+	}
+
 }

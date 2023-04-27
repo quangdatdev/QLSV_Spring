@@ -10,11 +10,10 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.se.spring.entity.Person;
 import com.se.spring.entity.Professor;
 
 @Repository
-public class ProfessorDAOImpl implements ProfessorDAO{
+public class ProfessorDAOImpl implements ProfessorDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -23,9 +22,9 @@ public class ProfessorDAOImpl implements ProfessorDAO{
 	@Transactional
 	public List<Professor> getProfessorAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Professor> query = currentSession.createNativeQuery("SELECT Person.*, Professor.degree, Professor.title, Professor.id_faculty\r\n"
-				+ "FROM   Person INNER JOIN\r\n"
-				+ "             Professor ON Person.uid = Professor.uid",Professor.class);
+		Query<Professor> query = currentSession.createNativeQuery("SELECT Person.*, Professor.*\r\n"
+				+ "FROM   Professor INNER JOIN\r\n" + "             Person ON Professor.uid = Person.uid",
+				Professor.class);
 		List<Professor> lstProfessor = query.getResultList();
 		System.out.println(lstProfessor.get(0));
 		return lstProfessor;
@@ -35,11 +34,10 @@ public class ProfessorDAOImpl implements ProfessorDAO{
 	@Transactional
 	public Professor getProfessorById(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Professor> query = currentSession.createNativeQuery("\r\n"
-				+ "select *\r\n"
-				+ "FROM   Person INNER JOIN\r\n"
-				+ "             Professor ON Person.uid = Professor.uid"
-				+ "where uid = '"+ id +"'",Professor.class);
+		Query<Professor> query = currentSession.createNativeQuery(
+				"SELECT *\r\n" + "FROM   Professor INNER JOIN\r\n"
+						+ "             Person ON Professor.uid = Person.uid " + "where Professor.uid = '" + id + "'",
+				Professor.class);
 		Professor lstProfessor = query.uniqueResult();
 		return lstProfessor;
 	}
@@ -49,17 +47,33 @@ public class ProfessorDAOImpl implements ProfessorDAO{
 	public String deleteProfessor(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.delete(id, Person.class);
-		currentSession.delete(id, Professor.class);
+		Professor temp = currentSession.get(Professor.class, id);
+		currentSession.delete(temp);
 		return id;
 	}
 
 	@Override
 	@Transactional
-	public Professor updateProfessor( Professor st) {
+	public Professor updateProfessor(String id, Professor st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(st.getId(), st);
-		return st;	}
+		Professor temp = getProfessorById(id);
+		if (temp == null) {
+			return null;
+		}
+		temp.setFristName(st.getFristName());
+		temp.setLastName(st.getLastName());
+		temp.setNumCI(st.getNumCI());
+		temp.setDateOfBirth(st.getDateOfBirth());
+		temp.setPhone(st.getPhone());
+		temp.setEmail(st.getEmail());
+		temp.setAddress(st.getAddress());
+		temp.setStatus(st.getStatus());
+		temp.setTitle(st.getTitle());
+		temp.setDegree(st.getDegree());
+
+		currentSession.saveOrUpdate(temp);
+		return temp;
+	}
 
 	@Override
 	@Transactional
@@ -68,8 +82,7 @@ public class ProfessorDAOImpl implements ProfessorDAO{
 		currentSession.save(st);
 		return st;
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public List<Professor> addListProfessor(List<Professor> listST) {
@@ -79,20 +92,16 @@ public class ProfessorDAOImpl implements ProfessorDAO{
 		}
 		return listST;
 	}
-	
 
 	@Override
 	@Transactional
 	public List<Professor> getProfessorByFaculty(String class_id) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Professor> query = currentSession.createNativeQuery("select * \r\n"
-				+ "FROM   Person INNER JOIN\r\n"
-				+ "             Professor ON Person.uid = Professor.uid\r\n"
-				+ "where id_faculty = '"+ class_id +"'",Professor.class);
+		Query<Professor> query = currentSession.createNativeQuery("select * \r\n" + "FROM   Person INNER JOIN\r\n"
+				+ "             Professor ON Person.uid = Professor.uid\r\n" + "where id_faculty = '" + class_id + "'",
+				Professor.class);
 		List<Professor> lstProfessor = query.getResultList();
 		return lstProfessor;
 	}
-	
-	
 
 }

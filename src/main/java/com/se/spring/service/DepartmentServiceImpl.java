@@ -55,9 +55,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Override
 	@Transactional
-	public List<Department> getDepartmentByName(String class_id) {
+	public List<Department> getDepartmentByName(String day, String lau, String phong) {
 		// TODO Auto-generated method stub
-		return dao.getDepartmentByName(class_id);
+		return dao.getDepartmentByName( day,lau,  phong);
 	}
 
 

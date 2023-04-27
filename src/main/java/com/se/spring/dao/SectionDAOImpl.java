@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.se.spring.entity.Person;
 import com.se.spring.entity.Section;
 
 @Repository
@@ -33,10 +33,13 @@ public class SectionDAOImpl implements SectionDAO{
 	@Transactional
 	public Section getSectionById(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Section> query = currentSession.createNativeQuery("select * from Section "
-				+ "where section_id = '"+ id +"'",Section.class);
-		Section lstSection = query.uniqueResult();
-		return lstSection;
+//		Query<Section> query = currentSession.createNativeQuery("select * from Section "
+//				+ "where section_id = '"+ id +"'",Section.class);
+//		Section lstSection = query.uniqueResult();
+		Section rs = currentSession.get(Section.class, id);
+		Hibernate.initialize(rs);
+		
+		return rs;
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class SectionDAOImpl implements SectionDAO{
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		Section st = new Section();
-		st.setId_section(id);
+		st.setSection_id(id);
 		currentSession.delete(st);
 		return id;
 	}
@@ -99,13 +102,18 @@ public class SectionDAOImpl implements SectionDAO{
 	}
 
 	@Override
+	@Transactional
 	public List<Section> getSectionBySemeters(String semeters, String year) {
 		Session currentSession = sessionFactory.getCurrentSession();
+		String q =" and Schedule.semester like '%"+semeters+"%'";
+		if (semeters.equals("0")) {
+			q = "";
+		}
 		Query<Section> query = currentSession.createNativeQuery("SELECT  Section.*\r\n"
 				+ "FROM   Course INNER JOIN\r\n"
 				+ "             Section ON Course.course_id = Section.course_id INNER JOIN\r\n"
 				+ "             Schedule ON Section.schedule_id = Schedule.id "
-				+ "where years = '"+ year +"' and semester = '"+semeters+"'",Section.class);
+				+ "where Schedule.years = '"+ year +"'" + q,Section.class);
 		List<Section> lstSection = query.getResultList();
 		return lstSection;
 

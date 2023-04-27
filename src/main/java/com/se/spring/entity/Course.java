@@ -1,5 +1,6 @@
 package com.se.spring.entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,13 +16,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.UniqueConstraint;
 
 @Entity(name = "Course")
-public class Course {
+public class Course implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1866622527638029295L;
 	@Id
+	@Column(columnDefinition = "nvarchar(255)")
 	private String course_id;
+	@Column(columnDefinition = "nvarchar(255)",nullable = true)
 	private String course_name;
 	@Column(nullable = true)
 	private int credits;
+	@Column(columnDefinition = "nvarchar(255)",nullable = true)
 	private String desrciption;
 
 	@ElementCollection(fetch = FetchType.EAGER)

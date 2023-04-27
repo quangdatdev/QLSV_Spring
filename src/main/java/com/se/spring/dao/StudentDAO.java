@@ -13,4 +13,6 @@ public interface StudentDAO {
 	public Student addStudent(Student st);
 	public List<Student> getStudentByClass(String class_id);
 	public List<Student> addListStudent(List<Student> listST);
+	public List<Student> getStudentByFaculty(String class_id);
+	
 }

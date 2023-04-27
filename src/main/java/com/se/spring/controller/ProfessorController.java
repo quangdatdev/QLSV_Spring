@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,25 +39,25 @@ public class ProfessorController {
 		return service.deleteProfessor(id);
 	}
 	
-	@GetMapping("/update")
-	public Professor updateProfessor(Professor st) {
+	@PutMapping("/update/{id}")
+	public Professor updateProfessor(@PathVariable String id,@RequestBody Professor st) {
 		
-		return service.updateProfessor(st);
+		return service.updateProfessor(id,st);
 	}
 	@PostMapping("/add")
-	public Professor addProfessor(Professor st) {
+	public Professor addProfessor(@RequestBody Professor st) {
 		
 		return service.addProfessor(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<Professor> addListProfessor(List<Professor> st) {
+	public List<Professor> addListProfessor(@RequestBody List<Professor> st) {
 		
 		return service.addListProfessor(st);
 	}
 	
-	@GetMapping("/getByFaculty")
-	public List<Professor> getProfessorByFaculty(String class_id) {
+	@GetMapping("/getByFaculty/{class_id}")
+	public List<Professor> getProfessorByFaculty(@PathVariable String class_id) {
 		
 		return service.getProfessorByFaculty(class_id);
 	}

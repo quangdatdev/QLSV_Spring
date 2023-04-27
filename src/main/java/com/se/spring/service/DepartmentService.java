@@ -12,6 +12,6 @@ public interface DepartmentService {
 	public String deleteDepartment(String id);
 	public Department updateDepartment(String id,Department st);
 	public Department addDepartment(Department st);
-	public List<Department> getDepartmentByName(String class_id);
+	public List<Department> getDepartmentByName(String day, String lau, String phong);
 	public List<Department> addListDepartment(List<Department> st);
 }

@@ -9,7 +9,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.se.spring.entity.Person;
 import com.se.spring.entity.Student;
 
 @Repository
@@ -25,7 +24,7 @@ public class StudentsDAOImpl implements StudentDAO {
 		Query<Student> query = currentSession.createNativeQuery("select *  FROM   dbo.Person INNER JOIN\r\n"
 				+ "             dbo.Student ON dbo.Person.uid = dbo.Student.uid",Student.class);
 		List<Student> lstStudent = query.getResultList();
-		System.out.println(lstStudent.get(0));
+		System.out.println(lstStudent.get(0).getFaculty().getIdFaculty());
 		return lstStudent;
 	}
 
@@ -37,7 +36,7 @@ public class StudentsDAOImpl implements StudentDAO {
 				+ "select *\r\n"
 				+ "FROM   dbo.Person INNER JOIN\r\n"
 				+ "             dbo.Student ON dbo.Person.uid = dbo.Student.uid "
-				+ "where uid = '"+ id +"'",Student.class);
+				+ "where Student.uid='"+ id +"'",Student.class);
 		Student lstStudent = query.uniqueResult();
 		return lstStudent;
 	}
@@ -47,17 +46,8 @@ public class StudentsDAOImpl implements StudentDAO {
 	public String deleteStudent(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		Student st = new Student();
-		st.setId(id);
-		currentSession.delete(st);
-		Person p = new Person();
-		p.setId(id);
-//		currentSession.delete(id, Student.class);
-//		currentSession.delete(id, Person.class);
-//		Query q = currentSession.createQuery("delete Entity where uid ='"+id+"'");
-//		Query q1 = currentSession.createQuery("delete Student where uid ='"+id+"'");
-//		Query q2 = currentSession.createQuery("delete Person where uid ='"+id+"'");
-//		q1.executeUpdate();
+		Student temp = currentSession.get(Student.class, id);
+		currentSession.delete(temp);
 		return id;
 	}
 
@@ -65,8 +55,24 @@ public class StudentsDAOImpl implements StudentDAO {
 	@Transactional
 	public Student updateStudent(String id, Student st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
-		return st;	}
+		Student temp = getStudentById(id);
+		if (temp==null) {
+			return null;
+		}
+		temp.setFristName(st.getFristName());
+		temp.setLastName(st.getLastName());
+		temp.setNumCI(st.getNumCI());
+		temp.setDateOfBirth(st.getDateOfBirth());
+		temp.setPhone(st.getPhone());
+		temp.setEmail(st.getEmail());
+		temp.setAddress(st.getAddress());
+		temp.setStatus(st.getStatus());
+		temp.setMajor(st.getMajor());
+		temp.setDateStart(st.getDateStart());
+		
+		currentSession.saveOrUpdate(temp);
+		return temp;	
+		}
 
 	@Override
 	@Transactional
@@ -96,6 +102,18 @@ public class StudentsDAOImpl implements StudentDAO {
 				+ "FROM   dbo.Person INNER JOIN\r\n"
 				+ "             dbo.Student ON dbo.Person.uid = dbo.Student.uid\r\n"
 				+ "where id_class = '"+ class_id +"'",Student.class);
+		List<Student> lstStudent = query.getResultList();
+		return lstStudent;
+	}
+
+	@Override
+	@Transactional
+	public List<Student> getStudentByFaculty(String class_id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Student> query = currentSession.createNativeQuery("select * \r\n"
+				+ "FROM   dbo.Person INNER JOIN\r\n"
+				+ "             dbo.Student ON dbo.Person.uid = dbo.Student.uid\r\n"
+				+ "where id_faculty = '"+ class_id +"'",Student.class);
 		List<Student> lstStudent = query.getResultList();
 		return lstStudent;
 	}

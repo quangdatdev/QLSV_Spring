@@ -11,7 +11,7 @@ public interface CourseDAO {
 
 	String deleteCourse(String id);
 
-	Course updateCourse( Course st);
+	Course updateCourse(String id, Course st);
 
 	Course addCourse(Course st);
 

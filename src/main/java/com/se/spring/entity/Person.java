@@ -1,5 +1,8 @@
 package com.se.spring.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -9,24 +12,33 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Person {
+public class Person implements Serializable{
 
 	@Id
+	@Column(columnDefinition = "nvarchar(255)")
 	protected String uid;
+	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	protected String fristName;
+	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	protected String lastName;
+	@Column(columnDefinition = "nvarchar(50)", nullable = true)
 	protected String numCI;
+	@Column(columnDefinition = "nvarchar(50)", nullable = true)
 	protected String dateOfBirth;
+	@Column(columnDefinition = "nvarchar(50)", nullable = true)
 	protected String phone;
+	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	protected String email;
+	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	protected String address;
+	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	protected String status;
 	public Person() {
 		// TODO Auto-generated constructor stub
 	}
-	public Person(String id, String fullName, String lastName, String numCI, String dateOfBirth, String phone,
+	public Person(String uid, String fullName, String lastName, String numCI, String dateOfBirth, String phone,
 			String email, String address, String status) {
-		this.uid = id;
+		this.uid = uid;
 		this.fristName = fullName;
 		this.lastName = lastName;
 		this.numCI = numCI;
@@ -36,17 +48,18 @@ public class Person {
 		this.address = address;
 		this.status = status;
 	}
-	public String getId() {
+	
+	public String getUid() {
 		return uid;
 	}
-	public void setId(String id) {
-		this.uid = id;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
-	public String getFullName() {
+	public String getFristName() {
 		return fristName;
 	}
-	public void setFullName(String fullName) {
-		this.fristName = fullName;
+	public void setFristName(String fristName) {
+		this.fristName = fristName;
 	}
 	public String getLastName() {
 		return lastName;

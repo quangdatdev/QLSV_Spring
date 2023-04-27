@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.se.spring.entity.Department;
 import com.se.spring.entity.Department;
 import com.se.spring.service.DepartmentService;
 
@@ -40,27 +40,27 @@ public class DepartmentController{
 		return service.deleteDepartment(id);
 	}
 	
-	@PutMapping("/update")
-	public Department updateDepartment(Department st) {
-		
-		return service.updateDepartment(st.getId_dep(),st);
+	@PutMapping("/update/{id}")
+	public Department updateDepartment(@PathVariable String id,@RequestBody Department st) {
+		System.out.println(st.toString());
+		return service.updateDepartment(id,st);
 	}
 	@PostMapping("/add")
-	public Department addDepartment(Department st) {
+	public Department addDepartment(@RequestBody Department st) {
 		
 		return service.addDepartment(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<Department> addListDepartment(List<Department> st) {
+	public List<Department> addListDepartment( @RequestBody List<Department> st) {
 		
 		return service.addListDepartment(st);
 	}
 	
-	@GetMapping("/getByName/{name_dep}")
-	public List<Department> getDepartmentByName(@PathVariable String name_dep) {
+	@GetMapping("/getByName/{day}/{lau}/{phong}")
+	public List<Department> getDepartmentByName(@PathVariable String day,@PathVariable String lau,@PathVariable String phong) {
 		
-		return service.getDepartmentByName(name_dep);
+		return service.getDepartmentByName(day,lau,phong);
 	}
 
 }

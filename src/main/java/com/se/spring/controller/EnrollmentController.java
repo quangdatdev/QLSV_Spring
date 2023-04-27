@@ -3,10 +3,12 @@ package com.se.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,25 +34,25 @@ public class EnrollmentController {
 		return service.getEnrollmentByStudentId(id);
 	}
 	
-	@PostMapping("/delete")
-	public String deleteEnrollment(String id) {
+	@DeleteMapping("/delete/{id}")
+	public String deleteEnrollment(@PathVariable String id) {
 		
 		return service.deleteEnrollment(id);
 	}
 	
 	@PutMapping("/updateGrade")
-	public Enrollment updateGradeEnrollment(Enrollment st) {
+	public Enrollment updateGradeEnrollment(@RequestBody Enrollment st) {
 		
 		return service.updateGradeEnrollment(st);
 	}
 	@PostMapping("/add")
-	public Enrollment addEnrollment(Enrollment st) {
+	public Enrollment addEnrollment(@RequestBody Enrollment st) {
 		
 		return service.addEnrollment(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<Enrollment> addListEnrollment(List<Enrollment> st) {
+	public List<Enrollment> addListEnrollment(@RequestBody List<Enrollment> st) {
 		
 		return service.addListEnrollment(st);
 	}

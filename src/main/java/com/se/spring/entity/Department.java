@@ -1,15 +1,23 @@
 package com.se.spring.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name = "Department")
-public class Department {
+public class Department implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -187027009025687584L;
 	@Id
+	@Column(columnDefinition = "nvarchar(255)")
 	private String id_dep;
+	@Column(columnDefinition = "nvarchar(255)",nullable = true)
 	private String name_dep;
 	@Column(nullable = true)
 	private int noOfSeat;
@@ -41,6 +49,10 @@ public class Department {
 	}
 	public void setNoOfSeat(int noOfSeat) {
 		this.noOfSeat = noOfSeat;
+	}
+	@Override
+	public String toString() {
+		return "Department [id_dep=" + id_dep + ", name_dep=" + name_dep + ", noOfSeat=" + noOfSeat + "]";
 	}
 	
 	

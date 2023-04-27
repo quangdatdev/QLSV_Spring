@@ -34,7 +34,7 @@ public class FacultyDAOImpl implements FacultyDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Faculty> query = currentSession.createNativeQuery("SELECT Faculty.*\r\n"
 				+ "FROM   Faculty"
-				+ "where id_faculty = '"+ id +"'",Faculty.class);
+				+ " where id_faculty = '"+ id +"'",Faculty.class);
 		Faculty lstFaculty = query.uniqueResult();
 		return lstFaculty;
 	}
@@ -44,7 +44,8 @@ public class FacultyDAOImpl implements FacultyDAO {
 	public String deleteFaculty(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.delete(id,Faculty.class);
+		Faculty temp = currentSession.get(Faculty.class, id);
+		currentSession.delete(temp);
 		return id;
 	}
 
@@ -52,8 +53,14 @@ public class FacultyDAOImpl implements FacultyDAO {
 	@Transactional
 	public Faculty updateFaculty(String id, Faculty st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
-		return st;	}
+		Faculty temp = getFacultyById(id);
+		if (temp == null) {
+			return null;
+		}
+		temp.setNameFaculty(st.getNameFaculty());
+		currentSession.saveOrUpdate(temp);
+		return temp;	
+		}
 
 	@Override
 	@Transactional
@@ -80,7 +87,7 @@ public class FacultyDAOImpl implements FacultyDAO {
 	public List<Faculty> getFacultyByName(String name) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Faculty> query = currentSession.createNativeQuery("SELECT Faculty.*\r\n"
-				+ "FROM   Faculty"
+				+ "FROM   Faculty "
 				+ "where name_faculty = '"+ name +"'",Faculty.class);
 		List<Faculty> lstFaculty = query.getResultList();
 		return lstFaculty;

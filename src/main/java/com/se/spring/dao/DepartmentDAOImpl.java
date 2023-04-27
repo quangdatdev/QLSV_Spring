@@ -22,7 +22,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	@Transactional
 	public List<Department> getDepartmentAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Department> query = currentSession.createNativeQuery("select *  from Department", Department.class);
+		Query<Department> query = currentSession.createNativeQuery("select * from Department", Department.class);
 		List<Department> lstDepartment = query.getResultList();
 		System.out.println(lstDepartment.get(0));
 		return lstDepartment;
@@ -33,8 +33,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	public Department getDepartmentById(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Department> query = currentSession.createNativeQuery(
-				"\r\n" + "select *\r\n" + "from Department\r\n" + "where id_dep = '" + id + "'",
-				Department.class);
+				"\r\n" + "select *\r\n" + "from Department\r\n" + "where id_dep = '" + id + "'", Department.class);
 		Department lstDepartment = query.uniqueResult();
 		return lstDepartment;
 	}
@@ -44,7 +43,8 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	public String deleteDepartment(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.delete(id, Department.class);
+		Department temp = currentSession.get(Department.class, id);
+		currentSession.delete(temp);
 		return id;
 	}
 
@@ -52,8 +52,14 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	@Transactional
 	public Department updateDepartment(String id, Department st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
-		return st;
+		Department temp = getDepartmentById(id);
+		if (temp == null) {
+			return null;
+		}
+		temp.setName_dep(st.getName_dep());
+		temp.setNoOfSeat(st.getNoOfSeat());
+		currentSession.saveOrUpdate(temp);
+		return temp;
 	}
 
 	@Override
@@ -76,10 +82,21 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
 	@Override
 	@Transactional
-	public List<Department> getDepartmentByName(String class_id) {
+	public List<Department> getDepartmentByName(String day, String lau, String phong) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Department> query = currentSession.createNativeQuery(
-				"select * \r\n" + "from Department\r\n" + "where name_dep = '" + class_id + "'", Department.class);
+
+		String strLau = "	and name_dep like '___________" + lau + "%'\r\n";
+		String strPhong = "	and name_dep like '____________________" + phong + "%'";
+
+		if (lau.equals("0")) {
+			strLau = "";
+		}
+		if (phong.equals("0")) {
+			strPhong = "";
+		}
+		String sql = "select * from Department\r\n" + "where name_dep like '____"+day+"%'\r\n" + strLau + strPhong;
+
+		Query<Department> query = currentSession.createNativeQuery(sql, Department.class);
 		List<Department> lstDepartment = query.getResultList();
 		return lstDepartment;
 	}

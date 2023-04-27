@@ -12,4 +12,6 @@ public interface StudentService {
 	public Student addStudent(Student st);
 	public List<Student> getStudentByClass(String class_id);
 	public List<Student> addListStudent(List<Student> st);
+	public List<Student> getStudentByFaculty(String class_id);
+	
 }

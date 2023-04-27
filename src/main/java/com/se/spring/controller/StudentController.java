@@ -3,8 +3,12 @@ package com.se.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,40 +27,48 @@ public class StudentController {
 		
 		return service.getStudentAll();
 	}
-	@GetMapping("/getById")
-	public Student getById(String id) {
+	@GetMapping("/getById/{id}")
+	public Student getById(@PathVariable String id) {
 		
 		
 		return service.getStudentById(id);
 	}
 	
-	@PostMapping("/delete")
-	public String deleteStudent(String id) {
+	@DeleteMapping("/delete/{id}")
+	public String deleteStudent(@PathVariable String id) {
 		
 		return service.deleteStudent(id);
 	}
 	
-	@GetMapping("/update")
-	public Student updateStudent(String id,Student st) {
+	@PutMapping("/update/{id}")
+	public Student updateStudent(@PathVariable String id,@RequestBody Student st) {
 		
 		return service.updateStudent(id,st);
 	}
 	@PostMapping("/add")
-	public Student addStudent(Student st) {
+	public Student addStudent(@RequestBody Student st) {
+		
+		System.out.println(st.getUid().toString());
 		
 		return service.addStudent(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<Student> addListStudent(List<Student> st) {
+	public List<Student> addListStudent(@RequestBody List<Student> st) {
 		
 		return service.addListStudent(st);
 	}
 	
-	@GetMapping("/getByClass")
-	public List<Student> getStudentByClass(String class_id) {
+	@GetMapping("/getByClass/{class_id}")
+	public List<Student> getStudentByClass(@PathVariable String class_id) {
 		
 		return service.getStudentByClass(class_id);
 	}
+	@GetMapping("/getByFaculty/{class_id}")
+	public List<Student> getStudentByFaculty(@PathVariable String class_id) {
+		
+		return service.getStudentByFaculty(class_id);
+	}
+	
 
 }

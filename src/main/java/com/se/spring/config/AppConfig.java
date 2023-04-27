@@ -32,7 +32,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableWebMvc
-@EnableSwagger2
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.se.spring")
 @PropertySource({ "classpath:persistence-mssql.properties" })
@@ -96,7 +95,6 @@ public class AppConfig implements WebMvcConfigurer {
 		props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
 		props.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-
 		return props;
 	}
 
@@ -123,24 +121,5 @@ public class AppConfig implements WebMvcConfigurer {
 
 		return txManager;
 	}
-
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-		registry.addResourceHandler("swagger-ui.html")
-	      .addResourceLocations("classpath:/META-INF/resources/");
-
-	    registry.addResourceHandler("/webjars/**")
-	      .addResourceLocations("classpath:/META-INF/resources/webjars/");
-	}
-	
-	@Bean
-	  public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2)  
-		          .select()                                  
-		          .apis(RequestHandlerSelectors.any())              
-		          .paths(PathSelectors.any())                          
-		          .build(); 
-	  }
 
 }

@@ -24,7 +24,6 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Enrollment> query = currentSession.createNativeQuery("select *  FROM   Enrollment", Enrollment.class);
 		List<Enrollment> lstEnrollment = query.getResultList();
-		System.out.println("HEllo");
 		return lstEnrollment;
 	}
 
@@ -52,8 +51,8 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
 	public Enrollment updateGradeEnrollment(Enrollment st) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Enrollment> query = currentSession.createNativeQuery(
-				"UPDATE [dbo].[Enrollment] " + "   SET [gradle] = " + st.getGradle() + " where uid = '"
-						+ st.getStudent().getId() + "' and id_section= '" + st.getSection().getId_section() + "'",
+				"UPDATE [dbo].[Enrollment] " + "   SET [gradle] = " + st.getGradle1() + " where uid = '"
+						+ st.getStudent().getUid() + "' and id_section= '" + st.getSection().getSection_id() + "'",
 				Enrollment.class);
 		int rs = 0;
 		rs = query.executeUpdate();
