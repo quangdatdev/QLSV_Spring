@@ -25,23 +25,23 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
 	@Override
 	@Transactional
-	public Enrollment getEnrollmentByStudentId(String id) {
+	public List<Enrollment> getEnrollmentByStudentId(String id) {
 		return dao.getEnrollmentByStudentId(id);
 	}
 
 
 	@Override
 	@Transactional
-	public String deleteEnrollment(String id) {
+	public String deleteEnrollment(String uid,String id_section) {
 		// TODO Auto-generated method stub
-		return dao.deleteEnrollment(id);
+		return dao.deleteEnrollment(uid,id_section);
 	}
 
 
 	@Override
 	@Transactional
-	public Enrollment updateGradeEnrollment(Enrollment st) {
-		return dao.updateGradeEnrollment(st);
+	public Enrollment updateGradeEnrollment(String id_section,Enrollment st) {
+		return dao.updateGradeEnrollment(id_section,st);
 	}
 
 
@@ -62,9 +62,17 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
 
 	@Override
+	@Transactional
 	public List<Enrollment> addListEnrollment(List<Enrollment> st) {
 		// TODO Auto-generated method stub
 		return dao.addListEnrollment(st);
+	}
+
+
+	@Override
+	public Enrollment getEnrollmentById(String uid, String id_section) {
+		// TODO Auto-generated method stub
+		return dao.getEnrollmentById(uid,id_section);
 	}
 
 

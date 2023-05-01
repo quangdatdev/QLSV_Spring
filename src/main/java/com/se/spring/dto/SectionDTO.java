@@ -14,7 +14,6 @@ public class SectionDTO {
 	private String dayEnd;
 	private String status;
 	private Department room;
-	private List<Enrollment> enrollments;
 	private Course course;
 	private Professor professor;
 	private Schedule schedule;
@@ -48,12 +47,7 @@ public class SectionDTO {
 	public void setRoom(Department room) {
 		this.room = room;
 	}
-	public List<Enrollment> getEnrollments() {
-		return enrollments;
-	}
-	public void setEnrollments(List<Enrollment> enrollments) {
-		this.enrollments = enrollments;
-	}
+	
 	public Course getCourse() {
 		return course;
 	}

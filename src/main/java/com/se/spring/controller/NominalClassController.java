@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,19 +40,19 @@ public class NominalClassController{
 		return service.deleteNominalClass(id);
 	}
 	
-	@PutMapping("/update")
-	public NominalClass updateNominalClass(NominalClass st) {
+	@PutMapping("/update/{id}")
+	public NominalClass updateNominalClass(@PathVariable String id,@RequestBody NominalClass st) {
 		
-		return service.updateNominalClass(st.getIdClass(),st);
+		return service.updateNominalClass(id,st);
 	}
 	@PostMapping("/add")
-	public NominalClass addNominalClass(NominalClass st) {
+	public NominalClass addNominalClass(@RequestBody NominalClass st) {
 		
 		return service.addNominalClass(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<NominalClass> addListNominalClass(List<NominalClass> st) {
+	public List<NominalClass> addListNominalClass(@RequestBody List<NominalClass> st) {
 		
 		return service.addListNominalClass(st);
 	}

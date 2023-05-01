@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.se.spring.entity.Faculty;
 import com.se.spring.entity.NominalClass;
 
 @Repository
@@ -43,7 +44,8 @@ public class NominalClassDAOImpl implements NominalClassDAO{
 	public String deleteNominalClass(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.delete(id, NominalClass.class);
+		NominalClass temp = currentSession.get(NominalClass.class, id);
+		currentSession.delete(temp);
 		return id;
 	}
 
@@ -51,8 +53,13 @@ public class NominalClassDAOImpl implements NominalClassDAO{
 	@Transactional
 	public NominalClass updateNominalClass(String id, NominalClass st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
-		return st;
+		NominalClass temp = getNominalClassById(id);
+		if (temp == null) {
+			return null;
+		}
+		temp.setNameClass(st.getNameClass());
+		currentSession.saveOrUpdate(temp);
+		return temp;
 	}
 
 	@Override
@@ -78,7 +85,9 @@ public class NominalClassDAOImpl implements NominalClassDAO{
 	public List<NominalClass> getNominalClassByName(String class_name) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<NominalClass> query = currentSession.createNativeQuery(
-				"select *  from NominalClass " + "where name_class = '" + class_name + "'", NominalClass.class);
+				"SELECT *\r\n"
+				+ "From NominalClass\r\n"
+				+ "where name_class like '%"+class_name+"%'", NominalClass.class);
 		List<NominalClass> lstNominalClass = query.getResultList();
 		return lstNominalClass;
 	}

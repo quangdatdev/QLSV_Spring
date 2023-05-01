@@ -29,37 +29,40 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
 
 	@Override
 	@Transactional
-	public Enrollment getEnrollmentByStudentId(String id) {
+	public List<Enrollment> getEnrollmentByStudentId(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Enrollment> query = currentSession
 				.createNativeQuery("select *  FROM   Enrollment" + " where uid = '" + id + "'", Enrollment.class);
-		Enrollment lstEnrollment = query.uniqueResult();
+		 List<Enrollment> lstEnrollment = query.getResultList();
 		return lstEnrollment;
 	}
 
 	@Override
 	@Transactional
-	public String deleteEnrollment(String id) {
+	public String deleteEnrollment(String uid,String id_section) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.delete(id, Enrollment.class);
-		return id;
+		Enrollment temp = getEnrollmentById(uid, id_section);
+		currentSession.delete(temp);
+		return id_section;
 	}
 
 	@Override
 	@Transactional
-	public Enrollment updateGradeEnrollment(Enrollment st) {
+	public Enrollment updateGradeEnrollment(String id_section,Enrollment st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Enrollment> query = currentSession.createNativeQuery(
-				"UPDATE [dbo].[Enrollment] " + "   SET [gradle] = " + st.getGradle1() + " where uid = '"
-						+ st.getStudent().getUid() + "' and id_section= '" + st.getSection().getId_section() + "'",
-				Enrollment.class);
-		int rs = 0;
-		rs = query.executeUpdate();
-		if (rs == 0) {
+		Enrollment temp = getEnrollmentBySectionId(id_section).get(0);
+		if (temp ==null) {
 			return null;
 		}
-		return st;
+		temp.setDateEnrollment(st.getDateEnrollment());
+		temp.setGradle1(st.getGradle1());
+		temp.setGradle2(st.getGradle2());
+		temp.setGradle3(st.getGradle3());
+		temp.setStatus(st.getStatus());
+		currentSession.saveOrUpdate(temp);
+		
+		return temp;
 
 	}
 
@@ -88,6 +91,19 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
 		Query<Enrollment> query = currentSession.createNativeQuery(
 				"select *  FROM   Enrollment " + "where id_section = '" + name + "'", Enrollment.class);
 		List<Enrollment> lstEnrollment = query.getResultList();
+		return lstEnrollment;
+	}
+
+	@Override
+	@Transactional
+	public Enrollment getEnrollmentById(String uid, String id_section) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Enrollment> query = currentSession.createNativeQuery(
+				"select * from Enrollment\r\n"
+				+ "where uid = '"+uid+"'\r\n"
+				+ "and id_section = '"+id_section+"'", Enrollment.class);
+		Enrollment lstEnrollment = query.uniqueResult();
 		return lstEnrollment;
 	}
 

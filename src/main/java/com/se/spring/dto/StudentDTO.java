@@ -1,54 +1,32 @@
-package com.se.spring.entity;
+package com.se.spring.dto;
 
-import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
+import com.se.spring.entity.Faculty;
+import com.se.spring.entity.NominalClass;
 
-@Entity(name = "Student")
-@PrimaryKeyJoinColumn(name = "uid")
-public class Student extends Person implements Serializable{
+public class StudentDTO extends PersonDTO{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2796582220328133800L;
 	/**
 	 * Chuyên ngành
 	 */
-	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	private String major;
 	/**
 	 * Ngày nhập học
 	 */
-	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	private String dateStart;
 	
 	
 	//Constrain
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_faculty",columnDefinition = "nvarchar(255)")
 	private Faculty faculty;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_class",columnDefinition = "nvarchar(255)")
 	private NominalClass nominalClass;
 	
-	@OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
-	private List<Enrollment> enrollments;
 	
-	
-	public Student() {
-		// TODO Auto-generated constructor stub
+	public StudentDTO() {
 	}
 
-	public Student(String id, String fullName, String lastName, String numCI, String dateOfBirth, String phone,
+	public StudentDTO(String id, String fullName, String lastName, String numCI, String dateOfBirth, String phone,
 			String email, String address, String status, String major, String dateStart) {
 		super(id, fullName, lastName, numCI, dateOfBirth, phone, email, address, status);
 		this.major = major;
@@ -56,13 +34,20 @@ public class Student extends Person implements Serializable{
 	}
 	
 	
-	public Student(String major, String dateStart, Faculty faculty, NominalClass nominalClass) {
+	public StudentDTO(String major, String dateStart, Faculty faculty, NominalClass nominalClass) {
 		super();
 		this.major = major;
 		this.dateStart = dateStart;
 		this.faculty = faculty;
 		this.nominalClass = nominalClass;
 	}
+	
+//	public StudentDTO(String id, String fullName,String lastName,String major) {
+//		id = super.getUid();
+//		fullName = super.getFristName();
+//		lastName = super.getLastName();
+//		this.major = major;
+//	}
 
 	public String getMajor() {
 		return major;

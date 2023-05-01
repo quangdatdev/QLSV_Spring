@@ -1,5 +1,6 @@
 package com.se.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.se.spring.dto.EnrollmentDTO;
 import com.se.spring.entity.Enrollment;
+import com.se.spring.map.Mapper;
 import com.se.spring.service.EnrollmentService;
 
 @RestController
@@ -21,46 +24,79 @@ public class EnrollmentController {
 
 	@Autowired
 	private EnrollmentService service;
+	
+	private Mapper mapper = new Mapper();
+	
 
 	@GetMapping("/getall")
-	public List<Enrollment> getEnrollmentAll() {
+	public List<EnrollmentDTO> getEnrollmentAll() {
 		
-		return service.getEnrollmentAll();
+		List<Enrollment> list = service.getEnrollmentAll();
+		List<EnrollmentDTO> edto = new ArrayList<>();
+		for (Enrollment enrollmentDTO : list) {
+			edto.add(mapper.toEnrollmentDTO(enrollmentDTO));
+		}
+		
+		
+		return edto;
 	}
-	@GetMapping("/getByStudentId/{id}")
-	public Enrollment getByStudentId(@PathVariable String id) {
+	@GetMapping("/getByStudentId/{uid}")
+	public List<EnrollmentDTO> getByStudentId(@PathVariable String uid) {
 		
+		List<Enrollment> en = service.getEnrollmentByStudentId(uid);
+		List<EnrollmentDTO> list = new ArrayList<>();
+		for (Enrollment enrol : en) {
+			list.add(mapper.toEnrollmentDTO(enrol));
+		}
 		
-		return service.getEnrollmentByStudentId(id);
+		return list;
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public String deleteEnrollment(@PathVariable String id) {
+	@DeleteMapping("/delete/{uid}/{id_section}")
+	public String deleteEnrollment(@PathVariable String uid,@PathVariable String id_section) {
 		
-		return service.deleteEnrollment(id);
+		return service.deleteEnrollment(uid,id_section);
 	}
 	
-	@PutMapping("/updateGrade")
-	public Enrollment updateGradeEnrollment(@RequestBody Enrollment st) {
+	@PutMapping("/update/{id_section}")
+	public Enrollment updateGradeEnrollment(@PathVariable String id_section,@RequestBody EnrollmentDTO edto) {
 		
-		return service.updateGradeEnrollment(st);
+		Enrollment st = mapper.toEnrollment(edto);
+		
+		return service.updateGradeEnrollment(id_section,st);
 	}
 	@PostMapping("/add")
-	public Enrollment addEnrollment(@RequestBody Enrollment st) {
+	public Enrollment addEnrollment(@RequestBody EnrollmentDTO enrolldto) {
 		
+		Enrollment st = mapper.toEnrollment(enrolldto);
 		return service.addEnrollment(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<Enrollment> addListEnrollment(@RequestBody List<Enrollment> st) {
+	public List<Enrollment> addListEnrollment(@RequestBody List<EnrollmentDTO> edto) {
+		
+		List<Enrollment> st = new ArrayList<>();
+		for (EnrollmentDTO enrollment : edto) {
+			st.add(mapper.toEnrollment(enrollment));
+		}
 		
 		return service.addListEnrollment(st);
 	}
 	
-	@GetMapping("/getBySectionId/{id}")
-	public List<Enrollment> getEnrollmentBySectionId(@PathVariable String class_id) {
+	@GetMapping("/getBySectionId/{class_id}")
+	public List<EnrollmentDTO> getEnrollmentBySectionId(@PathVariable String class_id) {
+		List<EnrollmentDTO> edto = new ArrayList<>();
+		List<Enrollment> e = service.getEnrollmentBySectionId(class_id);
+		for (Enrollment enrollment : e) {
+			edto.add(mapper.toEnrollmentDTO(enrollment));
+		}
 		
-		return service.getEnrollmentBySectionId(class_id);
+		return edto;
 	}
-
+	@GetMapping("/getById/{uid}/{id_section}")
+	public EnrollmentDTO getEnrollmentById(@PathVariable String uid,@PathVariable String id_section) {
+		
+		Enrollment en = service.getEnrollmentById(uid, id_section);
+		return mapper.toEnrollmentDTO(en);
+	}
 }

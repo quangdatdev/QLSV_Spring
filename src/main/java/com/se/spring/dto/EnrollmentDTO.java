@@ -1,10 +1,8 @@
 package com.se.spring.dto;
 
-import com.se.spring.entity.Student;
-
 public class EnrollmentDTO {
 
-	private Student student;
+	private StudentDTO student;
 
 	private SectionDTO section;
 	
@@ -14,18 +12,6 @@ public class EnrollmentDTO {
 	private float gradle3;
 	private String dateEnrollment;
 	private String status;
-	public Student getStudent() {
-		return student;
-	}
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-	public SectionDTO getSection() {
-		return section;
-	}
-	public void setSection(SectionDTO section) {
-		this.section = section;
-	}
 	public float getGradle1() {
 		return gradle1;
 	}
@@ -60,7 +46,19 @@ public class EnrollmentDTO {
 	public EnrollmentDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	public EnrollmentDTO(Student student, SectionDTO section, float gradle1, float gradle2, float gradle3,
+	public StudentDTO getStudent() {
+		return student;
+	}
+	public void setStudent(StudentDTO student) {
+		this.student = student;
+	}
+	public SectionDTO getSection() {
+		return section;
+	}
+	public void setSection(SectionDTO section) {
+		this.section = section;
+	}
+	public EnrollmentDTO(StudentDTO student, SectionDTO section, float gradle1, float gradle2, float gradle3,
 			String dateEnrollment, String status) {
 		super();
 		this.student = student;
