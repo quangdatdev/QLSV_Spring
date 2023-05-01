@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.se.spring.entity.Section;
 
 @Repository
-public class SectionDAOImpl implements SectionDAO{
+public class SectionDAOImpl implements SectionDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -23,8 +23,8 @@ public class SectionDAOImpl implements SectionDAO{
 	@Transactional
 	public List<Section> getSectionAll() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Section> query = currentSession.createNativeQuery("select * from Section",Section.class);
-		List<Section> lstSection = query.getResultList();	
+		Query<Section> query = currentSession.createNativeQuery("select * from Section", Section.class);
+		List<Section> lstSection = query.getResultList();
 		System.out.println(lstSection.get(0));
 		return lstSection;
 	}
@@ -38,7 +38,7 @@ public class SectionDAOImpl implements SectionDAO{
 //		Section lstSection = query.uniqueResult();
 		Section rs = currentSession.get(Section.class, id);
 		Hibernate.initialize(rs);
-		
+
 		return rs;
 	}
 
@@ -47,9 +47,9 @@ public class SectionDAOImpl implements SectionDAO{
 	public String deleteSection(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		Section st = new Section();
-		st.setSection_id(id);
-		currentSession.delete(st);
+		Section temp = currentSession.get(Section.class, id);
+		System.out.println("\n\n\n"+temp.toString() + "\n\n\n");
+		currentSession.delete(temp);
 		return id;
 	}
 
@@ -57,8 +57,20 @@ public class SectionDAOImpl implements SectionDAO{
 	@Transactional
 	public Section updateSection(String id, Section st) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(id, st);
-		return st;	}
+		Section temp = getSectionById(id);
+		if (temp == null) {
+			return null;
+		}
+		temp.setCourse(st.getCourse());
+		temp.setDayEnd(st.getDayEnd());
+		temp.setDayStart(st.getDayStart());
+		temp.setProfessor(st.getProfessor());
+		temp.setRoom(st.getRoom());
+		temp.setSchedule(st.getSchedule());
+		temp.setStatus(st.getStatus());
+		currentSession.saveOrUpdate(temp);
+		return temp;
+	}
 
 	@Override
 	@Transactional
@@ -67,8 +79,7 @@ public class SectionDAOImpl implements SectionDAO{
 		currentSession.save(st);
 		return st;
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public List<Section> addListSection(List<Section> listST) {
@@ -78,25 +89,24 @@ public class SectionDAOImpl implements SectionDAO{
 		}
 		return listST;
 	}
-	
 
 	@Override
 	@Transactional
 	public List<Section> getSectionByCourse(String class_id) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Section> query = currentSession.createNativeQuery("select * from Section "
-				+ "where course_id = '"+ class_id +"'",Section.class);
+		Query<Section> query = currentSession
+				.createNativeQuery("select * from Section " + "where course_id = '" + class_id + "'", Section.class);
 		List<Section> lstSection = query.getResultList();
 		return lstSection;
 	}
+
 	@Override
 	@Transactional
 	public List<Section> getSectionByCourseName(String name) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Section> query = currentSession.createNativeQuery("SELECT Section.*, Course.*\r\n"
-				+ "FROM   Course INNER JOIN\r\n"
-				+ "             Section ON Course.course_id = Section.course_id "
-				+ "where course_name = '"+ name +"'",Section.class);
+				+ "FROM   Course INNER JOIN\r\n" + "             Section ON Course.course_id = Section.course_id "
+				+ "where course_name = '" + name + "'", Section.class);
 		List<Section> lstSection = query.getResultList();
 		return lstSection;
 	}
@@ -105,21 +115,17 @@ public class SectionDAOImpl implements SectionDAO{
 	@Transactional
 	public List<Section> getSectionBySemeters(String semeters, String year) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		String q =" and Schedule.semester like '%"+semeters+"%'";
+		String q = " and Schedule.semester like '%" + semeters + "%'";
 		if (semeters.equals("0")) {
 			q = "";
 		}
-		Query<Section> query = currentSession.createNativeQuery("SELECT  Section.*\r\n"
-				+ "FROM   Course INNER JOIN\r\n"
+		Query<Section> query = currentSession.createNativeQuery("SELECT  Section.*\r\n" + "FROM   Course INNER JOIN\r\n"
 				+ "             Section ON Course.course_id = Section.course_id INNER JOIN\r\n"
-				+ "             Schedule ON Section.schedule_id = Schedule.id "
-				+ "where Schedule.years = '"+ year +"'" + q,Section.class);
+				+ "             Schedule ON Section.schedule_id = Schedule.id " + "where Schedule.years = '" + year
+				+ "'" + q, Section.class);
 		List<Section> lstSection = query.getResultList();
 		return lstSection;
 
 	}
-	
-	
-	
 
 }

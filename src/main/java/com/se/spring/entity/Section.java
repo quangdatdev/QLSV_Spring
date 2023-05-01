@@ -1,65 +1,60 @@
 package com.se.spring.entity;
 
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Section")
-public class Section implements Serializable{
+public class Section {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -140470656491426513L;
 	@Id
-	@Column(columnDefinition = "nvarchar(255)")
+	@Column(columnDefinition = "nvarchar(100)")
 	private String section_id;
-	@Column(columnDefinition = "nvarchar(255)", nullable = true)
+	@Column(columnDefinition = "nvarchar(255)")
 	private String dayStart;
-	@Column(columnDefinition = "nvarchar(255)", nullable = true)
+	@Column(columnDefinition = "nvarchar(255)")
 	private String dayEnd;
-	@Column(columnDefinition = "nvarchar(255)", nullable = true)
+	@Column(columnDefinition = "nvarchar(255)",nullable = true)
 	private String status;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name ="room")
-	@JsonBackReference
+	@JsonIgnore
 	private Department room;
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "section")
+	@JsonIgnore
 	private List<Enrollment> enrollments;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "course_id")
-	@JsonBackReference
+	@JsonIgnore
 	private Course course;
 	
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "uid_professor")
-	@JsonBackReference
+	@JsonIgnore
 	private Professor professor;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference
+	@ManyToOne
+	@JsonIgnore
 	private Schedule schedule;
-
-	public String getSection_id() {
+	
+	public String getId_section() {
 		return section_id;
 	}
 
-	public void setSection_id(String section_id) {
-		this.section_id = section_id;
+	public void setId_section(String id_section) {
+		this.section_id = id_section;
 	}
 
 	public String getDayStart() {
@@ -94,14 +89,6 @@ public class Section implements Serializable{
 		this.room = room;
 	}
 
-	public List<Enrollment> getEnrollments() {
-		return enrollments;
-	}
-
-	public void setEnrollments(List<Enrollment> enrollments) {
-		this.enrollments = enrollments;
-	}
-
 	public Course getCourse() {
 		return course;
 	}
@@ -126,31 +113,36 @@ public class Section implements Serializable{
 		this.schedule = schedule;
 	}
 
+	public Section(String id_section, String dayStart, String dayEnd, String status) {
+		super();
+		this.section_id = id_section;
+		this.dayStart = dayStart;
+		this.dayEnd = dayEnd;
+		this.status = status;
+	}
+	
+
 	public Section(String section_id, String dayStart, String dayEnd, String status, Department room,
-			List<Enrollment> enrollments, Course course, Professor professor, Schedule schedule) {
+			 Course course, Professor professor, Schedule schedule) {
 		super();
 		this.section_id = section_id;
 		this.dayStart = dayStart;
 		this.dayEnd = dayEnd;
 		this.status = status;
 		this.room = room;
-		this.enrollments = enrollments;
 		this.course = course;
 		this.professor = professor;
 		this.schedule = schedule;
 	}
 
 	public Section() {
-		super();
 	}
 
 	@Override
 	public String toString() {
 		return "Section [section_id=" + section_id + ", dayStart=" + dayStart + ", dayEnd=" + dayEnd + ", status="
 				+ status + ", room=" + room.getId_dep() + ", enrollments=" + enrollments + ", course=" + course.getCourse_id() + ", professor="
-				+ professor.getUid() + ", schedule=" + schedule.getId() + "]";
+				+ professor.getUid() + "]";
 	}
-	
-	
 	
 }

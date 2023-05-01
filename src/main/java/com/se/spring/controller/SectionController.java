@@ -1,5 +1,6 @@
 package com.se.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.se.spring.dto.SectionDTO;
 import com.se.spring.entity.Section;
+import com.se.spring.map.Mapper;
 import com.se.spring.service.SectionService;
 
 @RestController
@@ -20,17 +23,24 @@ import com.se.spring.service.SectionService;
 public class SectionController {
 	@Autowired
 	private SectionService service;
+	
+	private Mapper mapper = new Mapper();
+
 
 	@GetMapping("/getall")
-	public List<Section> getSectionAll() {
-		
-		return service.getSectionAll();
+	public List<SectionDTO> getSectionAlldto() {
+		List<Section> list = service.getSectionAll();
+		List<SectionDTO> dsdto = new ArrayList<>();
+		for (Section section : list) {
+			dsdto.add(mapper.toSectionDto(section));
+		}
+		return dsdto;
 	}
 	@GetMapping("/getById/{id}")
-	public Section getById(@PathVariable String id) {
+	public SectionDTO getById(@PathVariable String id) {
+		SectionDTO secdto = mapper.toSectionDto(service.getSectionById(id));
 		
-		
-		return service.getSectionById(id);
+		return secdto;
 	}
 	
 	@DeleteMapping("/delete/{id}")
@@ -40,26 +50,38 @@ public class SectionController {
 	}
 	
 	@PutMapping("/update/{id}")
-	public Section updateSection(@PathVariable String id,@RequestBody Section st) {
+	public Section updateSection(@PathVariable String id,@RequestBody SectionDTO stdto) {
 		
+		Section st = mapper.toSection(stdto);
 		return service.updateSection(id,st);
 	}
 	@PostMapping("/add")
-	public Section addSection(@RequestBody Section st) {
+	public Section addSection(@RequestBody SectionDTO sdto) {
+		
+		Section st = mapper.toSection(sdto);
 		
 		return service.addSection(st);
 	}
 	
 	@PostMapping("/addList")
-	public List<Section> addListSection(@RequestBody List<Section> st) {
+	public List<Section> addListSection(@RequestBody List<SectionDTO> stdto) {
 		
+		List<Section> st = new ArrayList<Section>();
+		for (SectionDTO sectionDTO : stdto) {
+			st.add(mapper.toSection(sectionDTO));
+		}
 		return service.addListSection(st);
 	}
 	
 	@GetMapping("/getByCourseId/{class_id}")
-	public List<Section> getSectionByCourse(@PathVariable String class_id) {
+	public List<SectionDTO> getSectionByCourse(@PathVariable String class_id) {
 		
-		return service.getSectionByCourse(class_id);
+		List<Section> list =service.getSectionByCourse(class_id);
+		List<SectionDTO> dsdto = new ArrayList<>();
+		for (Section section : list) {
+			dsdto.add(mapper.toSectionDto(section));
+		}
+		return dsdto;
 	}
 //	@GetMapping("/getByCourseName/{class_id}")
 //	public List<Section> getSectionByCourseName(@PathVariable String class_id) {
@@ -68,9 +90,15 @@ public class SectionController {
 //	}
 	
 	@GetMapping("/getBySememeters/{year}/{semeters}")
-	public List<Section> getSectionBySemeters(@PathVariable String semeters,@PathVariable String year){
+	public List<SectionDTO> getSectionBySemeters(@PathVariable String semeters,@PathVariable String year){
 	
-		return service.getSectionBySemeters(semeters,year);
+		List<Section> list =service.getSectionBySemeters(semeters,year);
+		List<SectionDTO> dsdto = new ArrayList<>();
+		for (Section section : list) {
+			dsdto.add(mapper.toSectionDto(section));
+		}
+		return dsdto;
 	}
+	
 
 }

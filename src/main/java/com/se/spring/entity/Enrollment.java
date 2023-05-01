@@ -26,8 +26,10 @@ public class Enrollment implements Serializable {
 
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_section",columnDefinition = "nvarchar(255)")
+	@JoinColumn(name = "id_section",columnDefinition = "nvarchar(100)")
 	private Section section;
+	
+	
 	@Column(nullable = true)
 	private float gradle1;
 	@Column(nullable = true)
@@ -124,9 +126,21 @@ public class Enrollment implements Serializable {
 
 
 
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "Enrollment [student=" + student.getUid() + ", section=" + section.getSection_id() + ", gradle1=" + gradle1 + ", gradle2="
+		return "Enrollment [student=" + student.getUid() + ", section=" + section.getId_section() + ", gradle1=" + gradle1 + ", gradle2="
 				+ gradle2 + ", gradle3=" + gradle3 + ", dateEnrollment=" + dateEnrollment + "]";
 	}
 

@@ -7,13 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1034325141152345754L;
+	
+	
 	@Id
 	@Column(columnDefinition = "nvarchar(255)")
 	protected String uid;

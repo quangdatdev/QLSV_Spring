@@ -52,7 +52,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Enrollment> query = currentSession.createNativeQuery(
 				"UPDATE [dbo].[Enrollment] " + "   SET [gradle] = " + st.getGradle1() + " where uid = '"
-						+ st.getStudent().getUid() + "' and id_section= '" + st.getSection().getSection_id() + "'",
+						+ st.getStudent().getUid() + "' and id_section= '" + st.getSection().getId_section() + "'",
 				Enrollment.class);
 		int rs = 0;
 		rs = query.executeUpdate();
