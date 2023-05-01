@@ -7,6 +7,7 @@ where Professor.uid = 'GV002'
 
 
 --Select
+select * from Student
 select * from Section
 select * from Faculty
 select * from NominalClass
@@ -67,3 +68,13 @@ FROM   Course INNER JOIN
              Prerequisite_Course ON Course.course_id = Prerequisite_Course.course_id INNER JOIN
              Section ON Course.course_id = Section.course_id
 where Course.course_name like 'L%'
+
+---
+SELECT *
+From NominalClass
+where name_class like '%15A%'
+
+--
+select * from Enrollment
+where uid = 'SV009'
+and id_section = 'OOP01'
