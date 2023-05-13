@@ -1,23 +1,28 @@
 package com.se.spring.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "Account")
 public class Account {
 
 	
 	@Id
+	@Column(columnDefinition = "nvarchar(255)")
 	private String account_id;
+	@JsonIgnore
 	private String password;
 	private String duty;
-	
+	@JsonIgnore
 	@OneToOne
 	@MapsId
-	@JoinColumn(name = "uid")
+	@JoinColumn(name = "uid", columnDefinition = "nvarchar(255)")
 	private Person person;
 
 	public Account(String account_id,String duty) {

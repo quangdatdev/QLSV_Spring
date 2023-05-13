@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.se.spring.entity.Account;
 import com.se.spring.entity.Student;
 
 @Repository
@@ -78,7 +79,11 @@ public class StudentsDAOImpl implements StudentDAO {
 	@Transactional
 	public Student addStudent(Student st) {
 		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Account acc = new Account(st.getUid(), "SV");
+		acc.setPerson(st);
 		currentSession.save(st);
+		currentSession.save(acc);
 		return st;
 	}
 	
