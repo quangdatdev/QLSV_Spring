@@ -1,2 +1,2 @@
 # QLSV_Spring
-Báo
+Hệ thống quản lý đăng ký tín chỉ sinh viên
