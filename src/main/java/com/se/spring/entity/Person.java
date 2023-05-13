@@ -2,11 +2,14 @@ package com.se.spring.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -37,6 +40,11 @@ public class Person implements Serializable{
 	protected String address;
 	@Column(columnDefinition = "nvarchar(255)", nullable = true)
 	protected String status;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	protected Account account;
+	
 	public Person() {
 		// TODO Auto-generated constructor stub
 	}
@@ -107,12 +115,15 @@ public class Person implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	
 	@Override
 	public String toString() {
-		return "Person [uid=" + uid + ", fullName=" + fristName + ", lastName=" + lastName + ", numCI=" + numCI
+		return "Person [uid=" + uid + ", fristName=" + fristName + ", lastName=" + lastName + ", numCI=" + numCI
 				+ ", dateOfBirth=" + dateOfBirth + ", phone=" + phone + ", email=" + email + ", address=" + address
 				+ ", status=" + status + "]";
 	}
+	
 	
 	
 }
