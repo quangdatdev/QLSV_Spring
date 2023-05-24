@@ -1,10 +1,7 @@
 package com.se.spring.dto;
 
-import java.util.List;
-
 import com.se.spring.entity.Course;
 import com.se.spring.entity.Department;
-import com.se.spring.entity.Enrollment;
 import com.se.spring.entity.Professor;
 import com.se.spring.entity.Schedule;
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh toán học phí</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Quản lý sinh viên</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Trang chủ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Danh sách sinh viên</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Thanh toán học phí</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h2 class="text-center">Thanh toán học phí</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <form>
+          <div class="form-group">
+            <label for="studentName">Họ và tên sinh viên</label>
+            <input type="text" class="form-control" id="studentName" placeholder="Nhập họ và tên">
+          </div>
+          <div class="form-group">
+            <label for="studentID">Mã sinh viên</label>
+            <input type="text" class="form-control" id="studentID" placeholder="Nhập mã sinh viên">
+          </div>
+          <div class="form-group">
+            <label for="amount">Số tiền học phí</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
+              <input type="number" class="form-control" id="amount" placeholder="Nhập số tiền">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="paymentMethod">Phương thức thanh toán</label>
+            <select class="form-control" id="paymentMethod">
+              <option value="creditCard">Thẻ tín dụng</option>
+              <option value="bankTransfer">Chuyển khoản ngân hàng</option>
+              <option value="cash">Tiền mặt</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cardNumber">Số thẻ</label>
+            <input type="text" class="form-control" id="cardNumber" placeholder="Nhập số thẻ">
+          </div>
+          <div class="text-center">
+            
+            <button type="submit" class="btn btn-primary">Thanh toán</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
